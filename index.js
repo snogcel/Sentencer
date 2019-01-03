@@ -14,6 +14,14 @@ function Sentencer() {
   self._nouns      = require('./words/nouns.js');
   self._adjectives = require('./words/adjectives.js');
 
+  self._filteredNouns = {
+      animal: [],
+      location: [],
+      person: [],
+      food: [],
+      artifact: []
+  };
+
   self.actions = {
     noun: function() {
       return randy.choice(self._nouns);
@@ -23,6 +31,41 @@ function Sentencer() {
     },
     nouns: function() {
       return nounInflector.pluralize( randy.choice(self._nouns) );
+    },
+    noun_animal: function() {
+      if (self._filteredNouns.animal.length >= 0) {
+        return randy.choice(self._filteredNouns.animal);
+      } else {
+        return randy.choice(self._nouns);
+      }
+    },
+    noun_location: function() {
+      if (self._filteredNouns.location.length >= 0) {
+          return randy.choice(self._filteredNouns.location);
+      } else {
+          return randy.choice(self._nouns);
+      }
+    },
+    noun_person: function() {
+      if (self._filteredNouns.person.length >= 0) {
+          return randy.choice(self._filteredNouns.person);
+      } else {
+          return randy.choice(self._nouns);
+      }
+    },
+    noun_food: function() {
+      if (self._filteredNouns.food.length >= 0) {
+          return randy.choice(self._filteredNouns.food);
+      } else {
+          return randy.choice(self._nouns);
+      }
+    },
+    noun_artifact: function() {
+      if (self._filteredNouns.artifact.length >= 0) {
+          return randy.choice(self._filteredNouns.artifact);
+      } else {
+          return randy.choice(self._nouns);
+      }
     },
     adjective: function() {
       return randy.choice(self._adjectives);
@@ -37,6 +80,7 @@ function Sentencer() {
     self.actions     = _.merge(self.actions, options.actions || {});
     // overwrite nouns and adjectives if we got some
     self._nouns      = options.nounList || self._nouns;
+    self._filteredNouns      = options.filteredNounList || self._filteredNouns;
     self._adjectives = options.adjectiveList || self._adjectives;
   };
 
